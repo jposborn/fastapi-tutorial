@@ -2,21 +2,21 @@ from fastapi import FastAPI
 
 from enum import Enum
 
-app = FastAPI()
+app = FastAPI(title="FastAPI Tutorial - User Guide")
 
 # Recieve parameter in path
-@app.get("/items/{item_id}")
+@app.get("/items/{item_id}", tags=["Path Parameters"], summary="Receive parameter in path")
 async def read_item(item_id: int):
     return {"item_id": item_id}
 
 
-# Order matters fo path parameters (/users/me first to avoid /users/{user_id} thinking 'me' is the user_id)
-@app.get("/users/me")
+# Order matters for path parameters (/users/me first to avoid /users/{user_id} thinking 'me' is the user_id)
+@app.get("/users/me", tags=["Path Parameters"], summary="Order matters for path parameters (/users/me first to avoid /users/{user_id} thinking 'me' is the user_id)")
 async def read_user_me():
     return {"user_id": "the current user"}
 
 
-@app.get("/users/{user_id}")
+@app.get("/users/{user_id}", tags=["Path Parameters"], summary="Order matters for path parameters (/users/me first to avoid /users/{user_id} thinking 'me' is the user_id)")
 async def read_user(user_id: str):
     return {"user_id": user_id}
 
@@ -28,7 +28,7 @@ class ModelName(str, Enum):
     lenet = "lenet"
 
 
-@app.get("/models/{model_name}")
+@app.get("/models/{model_name}", tags=["Path Parameters"], summary="Use enumerator to define fixed parameter values")
 async def get_model(model_name: ModelName):
     if model_name is ModelName.alexnet:
         return {"model_name": model_name, "message": "Deep Learning FTW!"}
